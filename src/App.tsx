@@ -1,7 +1,7 @@
 import automergeLogo from '/automerge.png'
 import './App.css'
-import { isValidAutomergeUrl, type AutomergeUrl, } from '@automerge/automerge-repo'
 import { useDocument, useRepo } from '@automerge/automerge-repo-react-hooks'
+import type { AutomergeUrl } from '@automerge/automerge-repo'
 
 
 interface TodoDoc {
@@ -10,7 +10,7 @@ interface TodoDoc {
 }
 
 interface ListDoc {
-  todoUrls: AutomergeUrl[];
+  todoUrls: TodoDoc[];
 }
 
 
@@ -38,18 +38,8 @@ function TodoItem({ docUrl }: { docUrl: AutomergeUrl }) {
 };
 
 
-function App({ }) {
+function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const repo = useRepo();
-
-  const rootDocUrl = `${document.location.hash.substring(1)}`
-  let handle
-  if (isValidAutomergeUrl(rootDocUrl)) {
-    handle = repo.find(rootDocUrl)
-  } else {
-    handle = repo.create<ListDoc>()
-    handle.change(d => d.todoUrls = [])
-  }
-  const docUrl = document.location.hash = handle.url
 
   const [listDoc, changeListDoc] = useDocument<ListDoc>(docUrl)
 

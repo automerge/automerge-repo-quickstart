@@ -14,22 +14,16 @@ const repo = new Repo({
   storage: new IndexedDBStorageAdapter(),
 })
 
-declare global {
-  interface Window {
-    handle: DocHandle<unknown>
-  }
-}
 
 const rootDocUrl = `${document.location.hash.substring(1)}`
 let handle
 if (isValidAutomergeUrl(rootDocUrl)) {
   handle = repo.find(rootDocUrl)
 } else {
-  handle = repo.create<{ counter?: A.Counter }>()
-  handle.change(d => d.counter = new A.Counter())
+  handle = repo.create()
+  handle.change(d => d.todoUrls = [])
 }
 const docUrl = document.location.hash = handle.url
-window.handle = handle // we'll use this later for experimentation
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
