@@ -10,12 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@automerge/automerge": "2.1",
-    "@automerge/automerge-repo": "1.0.19",
-    "@automerge/automerge-repo-network-websocket": "1.0.19",
-    "@automerge/automerge-repo-react-hooks": "1.0.19",
-    "@automerge/automerge-repo-storage-indexeddb": "1.0.19",
-    "@automerge/automerge-wasm": "^0.9.0",
+    "@automerge/automerge-repo": "^1.1.2",
+    "@automerge/automerge-repo-network-websocket": "^1.1.2",
+    "@automerge/automerge-repo-react-hooks": "^1.1.2",
+    "@automerge/automerge-repo-storage-indexeddb": "^1.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vite-plugin-wasm": "^3.2.2"
