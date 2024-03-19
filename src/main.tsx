@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import * as A from "@automerge/automerge"
+import App, { type TodoDoc } from './App.tsx'
 
 import './index.css'
-import { isValidAutomergeUrl, Repo, DocHandle } from '@automerge/automerge-repo'
+import { isValidAutomergeUrl, Repo } from '@automerge/automerge-repo'
 import { BrowserWebSocketClientAdapter } from '@automerge/automerge-repo-network-websocket'
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb"
 import { RepoContext } from '@automerge/automerge-repo-react-hooks'
@@ -20,8 +19,8 @@ let handle
 if (isValidAutomergeUrl(rootDocUrl)) {
   handle = repo.find(rootDocUrl)
 } else {
-  handle = repo.create()
-  handle.change(d => d.todoUrls = [])
+  handle = repo.create<{ todos: TodoDoc[] }>()
+  handle.change(d => d.todos = [])
 }
 const docUrl = document.location.hash = handle.url
 

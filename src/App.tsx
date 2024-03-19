@@ -1,50 +1,18 @@
 import automergeLogo from '/automerge.png'
 import './App.css'
-import { useDocument, useRepo } from '@automerge/automerge-repo-react-hooks'
+import { useDocument } from '@automerge/automerge-repo-react-hooks'
 import type { AutomergeUrl } from '@automerge/automerge-repo'
 
 
-interface TodoDoc {
+export interface TodoDoc {
   task: string;
   done: boolean;
 }
 
-interface ListDoc {
-  todoUrls: TodoDoc[];
-}
-
-
-function TodoItem({ docUrl }: { docUrl: AutomergeUrl }) {
-
-  const [doc, changeDoc] = useDocument<TodoDoc>(docUrl)
-
-  return (<div className="task" >
-
-    {doc ? (<>
-      <input
-        type="checkbox"
-        checked={doc.done === undefined ? false : doc.done}
-        onChange={() => changeDoc(d => d.done = !d.done)}
-        style={{ textDecoration: 'line-through' }} />
-
-      <input type="text" placeholder='Learn Automerge' value={doc.task || ''} onChange={(e) => changeDoc(d => d.task = e.target.value)} />
-    </>
-    ) : (
-      <p>Loading...</p>
-    )}
-
-  </div>
-  )
-};
-
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
-  const repo = useRepo();
 
-  const [listDoc, changeListDoc] = useDocument<ListDoc>(docUrl)
-
-
-  console.log(listDoc);
+  const [doc, changeDoc] = useDocument<{ todos: TodoDoc[] }>(docUrl)
 
   return (
     <>
@@ -54,17 +22,32 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
 
       <button type="button" onClick={() => {
-        const newTodo = repo.create<TodoDoc>();
-        changeListDoc(d => d.todoUrls = d.todoUrls
-          ? [newTodo.url, ...d.todoUrls,]
-          : [newTodo.url]
+        changeDoc(d =>
+          d.todos.unshift({
+            task: '',
+            done: false
+          })
         );
       }}>
         New todo item
       </button>
 
-      {listDoc && listDoc.todoUrls?.map(docUrl =>
-        <TodoItem key={docUrl} docUrl={docUrl} />)}
+      {doc && doc.todos?.map(({ task, done }, index) =>
+        <div className='task' key={index}>
+          <input
+            type="checkbox"
+            checked={done}
+            onChange={() => changeDoc(d => {
+              d.todos[index].done = !d.todos[index].done;
+            })}
+          />
+
+          <input type="text" placeholder='What needs doing?' value={task || ''}
+            onChange={(e) => changeDoc(d => {
+              d.todos[index].task = e.target.value;
+            })} />
+        </div>)
+      }
 
 
 
