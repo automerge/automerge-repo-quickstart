@@ -1,4 +1,5 @@
 import automergeLogo from '/automerge.png'
+import '@picocss/pico/css/pico.min.css'
 import './App.css'
 import { useDocument } from '@automerge/automerge-repo-react-hooks'
 import type { AutomergeUrl } from '@automerge/automerge-repo'
