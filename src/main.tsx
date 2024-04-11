@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App, { type TodoDoc } from './App.tsx'
+import App, { type TaskList } from './App.tsx'
 
 import './index.css'
 import { isValidAutomergeUrl, Repo } from '@automerge/automerge-repo'
@@ -19,8 +19,7 @@ let handle
 if (isValidAutomergeUrl(rootDocUrl)) {
   handle = repo.find(rootDocUrl)
 } else {
-  handle = repo.create<{ todos: TodoDoc[] }>()
-  handle.change(d => d.todos = [])
+  handle = repo.create<TaskList>({tasks: []})
 }
 const docUrl = document.location.hash = handle.url
 

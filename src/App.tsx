@@ -5,15 +5,19 @@ import { useDocument } from '@automerge/automerge-repo-react-hooks'
 import type { AutomergeUrl } from '@automerge/automerge-repo'
 
 
-export interface TodoDoc {
-  task: string;
+export interface Task {
+  title: string;
   done: boolean;
+}
+
+export interface TaskList {
+  tasks: Task[];
 }
 
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
-  const [doc, changeDoc] = useDocument<{ todos: TodoDoc[] }>(docUrl)
+  const [doc, changeDoc] = useDocument<TaskList>(docUrl)
 
   return (
     <>
@@ -29,28 +33,28 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
       <button type="button" onClick={() => {
         changeDoc(d =>
-          d.todos.unshift({
-            task: '',
+          d.tasks.unshift({
+            title: 'Build with Automerge',
             done: false
           })
         );
       }}>
-        New todo item
+        <b>+</b> New task
       </button>
 
-      {doc && doc.todos?.map(({ task, done }, index) =>
+      {doc && doc.tasks?.map(({ title, done }, index) =>
         <div className='task' key={index}>
           <input
             type="checkbox"
             checked={done}
             onChange={() => changeDoc(d => {
-              d.todos[index].done = !d.todos[index].done;
+              d.tasks[index].done = !d.tasks[index].done;
             })}
           />
 
-          <input type="text" placeholder='What needs doing?' value={task || ''}
+          <input type="text" placeholder='What needs doing?' value={title || ''}
             onChange={(e) => changeDoc(d => {
-              d.todos[index].task = e.target.value;
+              d.tasks[index].title = e.target.value;
             })} />
         </div>)
       }
