@@ -22,10 +22,10 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
   return (
     <>
       <header>
-        <h1>
           <a href="https://automerge.org" target="_blank">
             <img src={automergeLogo} className="logo" alt="Automerge logo" />
           </a>
+        <h1>
           Automerge Task List
         </h1>
       </header>
@@ -42,6 +42,8 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
         <b>+</b> New task
       </button>
 
+      <div id='task-list'>
+
       {doc && doc.tasks?.map(({ title, done }, index) =>
         <div className='task' key={index}>
           <input
@@ -52,17 +54,20 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             })}
           />
 
-          <input type="text" placeholder='What needs doing?' value={title || ''}
+          <input type="text"
+            placeholder='What needs doing?' value={title || ''}
             onChange={(e) => changeDoc(d => {
               d.tasks[index].title = e.target.value;
             })} />
         </div>)
       }
 
+      </div>
+
 
 
       <footer>
-        <p className="read-the-docs">Powered by Automerge and Vite + React + TypeScript
+        <p className="read-the-docs">Powered by Automerge + Vite + React + TypeScript
         </p>
       </footer>
     </>
