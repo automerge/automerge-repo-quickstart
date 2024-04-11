@@ -17,7 +17,12 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
   return (
     <>
       <header>
-        <h1>Shared Task List</h1>
+        <h1>
+          <a href="https://automerge.org" target="_blank">
+            <img src={automergeLogo} className="logo" alt="Automerge logo" />
+          </a>
+          Automerge Task List
+        </h1>
       </header>
 
 
@@ -52,7 +57,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
 
       <footer>
-        <p>Powered by Automerge and Vite + React + TypeScript
+        <p className="read-the-docs">Powered by Automerge and Vite + React + TypeScript
         </p>
       </footer>
     </>
