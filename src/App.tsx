@@ -2,7 +2,6 @@ import automergeLogo from '/automerge.png'
 import '@picocss/pico/css/pico.min.css'
 import './App.css'
 import { useDocument } from '@automerge/automerge-repo-react-hooks'
-import { updateText } from '@automerge/automerge/next'
 import type { AutomergeUrl } from '@automerge/automerge-repo'
 
 
@@ -35,7 +34,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       <button type="button" onClick={() => {
         changeDoc(d =>
           d.tasks.unshift({
-            title: '',
+            title: 'Build with Automerge',
             done: false
           })
         );
@@ -58,12 +57,8 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           <input type="text"
             placeholder='What needs doing?' value={title || ''}
             onChange={(e) => changeDoc(d => {
-              // Use Automerge's updateText for efficient multiplayer edits
-              // (as opposed to replacing the whole title on each edit)
-              updateText(d.tasks[index], ['title'], e.target.value)
-            })}
-            style={done ? {textDecoration: 'line-through'}: {}}
-          />
+              d.tasks[index].title = e.target.value;
+            })} />
         </div>)
       }
 
