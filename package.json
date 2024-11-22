@@ -15,14 +15,14 @@
     "@automerge/automerge-repo-react-hooks": "^1.1.2",
     "@automerge/automerge-repo-storage-indexeddb": "^1.1.2",
     "@picocss/pico": "^2.0.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "vite-plugin-wasm": "^3.2.2"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "vite-plugin-wasm": "^3.3.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
