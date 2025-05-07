@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App, { type TaskList } from './App.tsx'
 
@@ -9,7 +9,9 @@ import {
   Repo,
   WebSocketClientAdapter,
   IndexedDBStorageAdapter,
-  RepoContext
+  RepoContext,
+  type AutomergeUrl,
+  DocHandle
 } from '@automerge/react'
 
 const repo = new Repo({
@@ -17,20 +19,33 @@ const repo = new Repo({
   storage: new IndexedDBStorageAdapter(),
 })
 
-
 const rootDocUrl = `${document.location.hash.substring(1)}`
-let handle
+let handle: DocHandle<TaskList>
 if (isValidAutomergeUrl(rootDocUrl)) {
   handle = await repo.find(rootDocUrl)
 } else {
   handle = repo.create<TaskList>({tasks: []})
 }
-const docUrl = document.location.hash = handle.url
+document.location.hash = handle.url
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <RepoContext.Provider value={repo}>
-      <App docUrl={docUrl} />
-    </RepoContext.Provider>
-  </React.StrictMode>,
-)
+function Root() {
+  const [docUrl, setDocUrl] = useState<AutomergeUrl>(handle.url)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setDocUrl(document.location.hash.substring(1) as AutomergeUrl)
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
+  return (
+    <React.StrictMode>
+      <RepoContext.Provider value={repo}>
+        <App docUrl={docUrl} />
+      </RepoContext.Provider>
+    </React.StrictMode>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')!).render(<Root />)
