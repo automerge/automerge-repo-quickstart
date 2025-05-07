@@ -1,10 +1,7 @@
 import automergeLogo from '/automerge.png'
 import '@picocss/pico/css/pico.min.css'
 import './App.css'
-import { useDocument } from '@automerge/automerge-repo-react-hooks'
-import { updateText } from '@automerge/automerge/next'
-import type { AutomergeUrl } from '@automerge/automerge-repo'
-
+import { useDocument, updateText, type AutomergeUrl } from '@automerge/react'
 
 export interface Task {
   title: string;

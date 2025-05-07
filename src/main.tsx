@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App, { type TaskList } from './App.tsx'
 
 import './index.css'
-import { isValidAutomergeUrl, Repo } from '@automerge/automerge-repo'
-import { BrowserWebSocketClientAdapter } from '@automerge/automerge-repo-network-websocket'
-import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb"
-import { RepoContext } from '@automerge/automerge-repo-react-hooks'
+
+import {
+  isValidAutomergeUrl,
+  Repo,
+  WebSocketClientAdapter,
+  IndexedDBStorageAdapter,
+  RepoContext
+} from '@automerge/react'
 
 const repo = new Repo({
-  network: [new BrowserWebSocketClientAdapter("wss://sync.automerge.org")],
+  network: [new WebSocketClientAdapter("wss://sync.automerge.org")],
   storage: new IndexedDBStorageAdapter(),
 })
 
@@ -17,7 +21,7 @@ const repo = new Repo({
 const rootDocUrl = `${document.location.hash.substring(1)}`
 let handle
 if (isValidAutomergeUrl(rootDocUrl)) {
-  handle = repo.find(rootDocUrl)
+  handle = await repo.find(rootDocUrl)
 } else {
   handle = repo.create<TaskList>({tasks: []})
 }
