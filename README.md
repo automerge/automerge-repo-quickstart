@@ -19,9 +19,9 @@ Clone the project, install its dependencies, and run `yarn dev` to start the loc
 $ git clone https://github.com/automerge/automerge-repo-quickstart.git
 # Cloning into automerge-repo-quickstart...
 $ cd automerge-repo-quickstart
-$ yarn
+$ pnpm i
 # Installing project dependencies...
-$ yarn dev
+$ pnpm dev
 # Starting Vite dev server...
 ```
 

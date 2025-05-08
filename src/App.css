@@ -22,6 +22,13 @@ footer {
   width: 100%;
 }
 
+#automerge-logo {
+  width: 1.7ex;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
 .task {
   display: flex;
   flex-direction: row;
@@ -35,14 +42,13 @@ footer {
   margin: 0;
 }
 
-.task input[type='text'] {
+.task input[type="text"] {
   background-color: var(--pico-secondary-background);
 }
 
-.task input[type='checkbox']:not(:checked) {
+.task input[type="checkbox"]:not(:checked) {
   background-color: var(--pico-secondary-background);
 }
-
 
 .read-the-docs {
   color: #888;

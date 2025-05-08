@@ -1,7 +1,7 @@
 {
   "name": "hello-automerge-repo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,13 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@automerge/automerge-repo": "^1.1.2",
-    "@automerge/automerge-repo-network-websocket": "^1.1.2",
-    "@automerge/automerge-repo-react-hooks": "^1.1.2",
-    "@automerge/automerge-repo-storage-indexeddb": "^1.1.2",
+    "@automerge/react": "file:../automerge-repo/packages/automerge-react",
     "@picocss/pico": "^2.0.6",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "vite-plugin-wasm": "^3.3.0"
   },
   "devDependencies": {
