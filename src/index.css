@@ -67,3 +67,158 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/**
+ * app styles
+ */
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+main {
+  display: flex;
+  gap: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+#automerge-logo {
+  height: 2em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+/* Layout for DocumentList and TaskList */
+.document-list {
+  width: 300px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--primary);
+  padding-right: 1rem;
+}
+
+.task-list {
+  flex-grow: 1;
+}
+
+.footer-copy {
+  color: #888;
+}
+
+.sync-controls {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.sync-controls button {
+  margin: 0;
+}
+
+dialog {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--primary);
+}
+
+dialog article {
+  margin: 0;
+}
+
+dialog input {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+dialog footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+dialog footer button {
+  margin: 0;
+}
+
+/**
+ * task styles
+ */
+.task {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.task input {
+  margin: 0;
+}
+
+.task input[type="text"] {
+  background-color: var(--pico-secondary-background);
+}
+
+.task input[type="checkbox"]:not(:checked) {
+  background-color: var(--pico-secondary-background);
+}
+
+/** 
+ * document list styles
+ */
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.documents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.document-item {
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.document-item:hover {
+  background-color: var(--pico-primary-hover);
+}
+
+.document-item.active {
+  background-color: var(--pico-primary);
+  color: var(--pico-primary-inverse);
+}
+
+.document-item.active:hover {
+  background-color: var(--pico-primary-hover);
+}
+
+.document-list button {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--pico-primary);
+  color: var(--pico-primary);
+  transition: all 0.2s ease;
+}
+
+.document-list button:hover {
+  background-color: var(--pico-primary);
+  color: var(--pico-primary-inverse);
+}
