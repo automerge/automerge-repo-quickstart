@@ -58,9 +58,9 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
                 value={title || ""}
                 onChange={(e) =>
                   changeDoc((d) => {
-                    // Use Automerge's updateText for efficient multiplayer edits
-                    // (as opposed to replacing the whole title on each edit)
-                    updateText(d.tasks[index], ["title"], e.target.value);
+                    // updateText has an awkward API, it takes the
+                    // document, the path, and then the new value.
+                    updateText(d, ["tasks", index, "title"], e.target.value);
                   })
                 }
                 style={done ? { textDecoration: "line-through" } : {}}
