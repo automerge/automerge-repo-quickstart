@@ -23,30 +23,26 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     suspense: true,
   });
 
-  const [historyIndex, setHistoryIndex] = useState(0);
-  const handle = useDocHandle<TaskList>(docUrl, { suspense: true });
-  const history = handle?.history() || [];
+  const handle = useDocHandle<TaskList>(docUrl, {
+    suspense: true,
+  });
+  const history = handle.history() || [];
 
   return (
     <>
       <div className="rewind-bar">
         <input
           type="range"
-          value={historyIndex}
           max={history.length}
           onChange={(e) => {
             const newIndex = Number(e.target.value);
-            setHistoryIndex(newIndex);
-
-            window.location.hash = newIndex
-              ? handle.view(history[history.length - newIndex]).url
-              : "automerge:" + handle.documentId;
+            console.log(newIndex);
+            window.location.hash =
+              newIndex < history.length
+                ? handle.view(history[newIndex]).url
+                : "automerge:" + handle.documentId;
           }}
         />
-
-        <div>
-          {historyIndex === 0 ? "Latest" : `${historyIndex} changes ago`}
-        </div>
       </div>
 
       <div className="content">

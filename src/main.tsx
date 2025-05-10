@@ -41,11 +41,11 @@ function Root() {
 
   return (
     <React.StrictMode>
-      <Suspense fallback={<div>Loading...</div>}>
-        <RepoContext.Provider value={repo}>
+      <RepoContext.Provider value={repo}>
+        <Suspense fallback={<div>Loading...</div>}>
           <App docUrl={docUrl} />
-        </RepoContext.Provider>
-      </Suspense>
+        </Suspense>
+      </RepoContext.Provider>
     </React.StrictMode>
   );
 }
