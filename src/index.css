@@ -67,3 +67,32 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Rewind bar styles */
+.rewind-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--pico-background-color);
+  padding: 1rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  z-index: 100;
+}
+
+.rewind-bar input[type="range"] {
+  flex: 1;
+  margin: 0;
+}
+
+.content {
+  margin-top: 4rem;
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+}
