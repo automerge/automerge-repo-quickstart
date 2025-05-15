@@ -36,7 +36,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           max={history.length}
           onChange={(e) => {
             const newIndex = Number(e.target.value);
-            console.log(newIndex);
             window.location.hash =
               newIndex < history.length
                 ? handle.view(history[newIndex]).url
