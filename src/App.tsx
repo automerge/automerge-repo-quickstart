@@ -7,7 +7,6 @@ import {
   type AutomergeUrl,
   useDocHandle,
 } from "@automerge/react";
-import { useState } from "react";
 
 export interface Task {
   title: string;
