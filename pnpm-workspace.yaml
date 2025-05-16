@@ -1,4 +1,0 @@
-ignoredBuiltDependencies:
-  - esbuild
-overrides:
-  '@automerge/react': link:../automerge-repo/packages/automerge-react
