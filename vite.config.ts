@@ -4,8 +4,7 @@ import react from "@vitejs/plugin-react"
 import wasm from "vite-plugin-wasm"
 
 export default defineConfig({
-  // customize this to your repo name for github pages deploy
-  base: "/automerge-repo-quickstart/",
+  base: "/",
 
   build: {
     target: "esnext",
