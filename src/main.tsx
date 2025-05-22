@@ -8,6 +8,7 @@ import {
   Repo,
   BroadcastChannelNetworkAdapter,
   IndexedDBStorageAdapter,
+  RepoContext,
   isValidAutomergeUrl,
   DocHandle,
 } from "@automerge/react";
@@ -42,7 +43,9 @@ if (isValidAutomergeUrl(locationHash)) {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading a document...</div>}>
-      <App taskList={initTaskList()} />
+      <RepoContext.Provider value={repo}>
+        <App taskList={initTaskList()} />
+      </RepoContext.Provider>
     </Suspense>
   </React.StrictMode>,
 );
