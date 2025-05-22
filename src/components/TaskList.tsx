@@ -11,12 +11,19 @@ export interface TaskList {
   tasks: Task[];
 }
 
-interface TaskListProps {
-  docUrl: AutomergeUrl;
+export function initTaskList() {
+  return {
+    title: `TODO: ${new Date().toLocaleString()}`,
+    tasks: [],
+  };
 }
 
-export function TaskList({ docUrl }: TaskListProps) {
-  const [doc, changeDoc] = useDocument<TaskList>(docUrl);
+export const TaskList: React.FC<{
+  docUrl: AutomergeUrl;
+}> = ({ docUrl }) => {
+  const [doc, changeDoc] = useDocument<TaskList>(docUrl, {
+    suspense: true,
+  });
 
   return (
     <>
@@ -64,4 +71,4 @@ export function TaskList({ docUrl }: TaskListProps) {
       </div>
     </>
   );
-}
+};

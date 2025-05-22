@@ -1,11 +1,22 @@
-import React, { useState } from "react";
-import { useRepo, useDocument, AutomergeUrl } from "@automerge/react";
-import { TaskList } from "./TaskList";
+import React, { useState, useEffect } from "react";
+import {
+  useRepo,
+  useDocument,
+  AutomergeUrl,
+  isValidAutomergeUrl,
+} from "@automerge/react";
+import { initTaskList, TaskList } from "./TaskList";
 import "./DocumentList.css";
 
 export interface DocumentList {
   documents: AutomergeUrl[];
 }
+
+export const initDocumentList = (initialDocUrls: AutomergeUrl[]) => {
+  return {
+    documents: initialDocUrls || [],
+  };
+};
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
@@ -15,13 +26,45 @@ export const DocumentList: React.FC<{
   const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
-  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>(
-    doc.documents[0]
-  );
+
+  // Get initial document from hash or first in list
+  const hash = window.location.hash.slice(1);
+  let initialDoc: AutomergeUrl;
+
+  if (hash && isValidAutomergeUrl(hash)) {
+    // Try to find the document in our list
+    const existingDoc = doc.documents.find((d) => d.toString() === hash);
+    if (existingDoc) {
+      initialDoc = existingDoc;
+    } else {
+      // If not found, add it to our list
+      changeDoc((doc: DocumentList) => {
+        if (!doc.documents.some((d) => d.toString() === hash)) {
+          doc.documents.push(hash as AutomergeUrl);
+        }
+      });
+      initialDoc = hash as AutomergeUrl;
+    }
+  } else {
+    initialDoc = doc.documents[0];
+  }
+
+  const [currentDocument, setCurrentDocument] =
+    useState<AutomergeUrl>(initialDoc);
+
+  // Notify parent of initial document selection
+  useEffect(() => {
+    onSelectDocument(initialDoc);
+  }, []);
+
+  // Update hash when document changes
+  useEffect(() => {
+    window.location.hash = currentDocument.toString();
+  }, [currentDocument]);
 
   const handleNewDocument = () => {
     // Create a new empty task list
-    const taskListHandle = repo.create({ tasks: [] });
+    const taskListHandle = repo.create(initTaskList());
 
     // Add it to the listing, here
     changeDoc((doc: DocumentList) => {

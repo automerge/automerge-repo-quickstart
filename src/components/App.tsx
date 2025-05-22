@@ -1,13 +1,12 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
 import "./App.css";
-import { useDocument, type AutomergeUrl } from "@automerge/react";
+import { type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";
 import { useState } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
-  // the DocumentList should suspend until we have a currentDocument
   const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>();
 
   return (
@@ -24,7 +23,11 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           <DocumentList docUrl={docUrl} onSelectDocument={setCurrentDocument} />
         </div>
         <div className="task-list">
-          <TaskList docUrl={currentDocument} />
+          {currentDocument ? (
+            <TaskList docUrl={currentDocument} />
+          ) : (
+            <div>Select a task list to get started...</div>
+          )}
         </div>
       </main>
 

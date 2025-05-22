@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/App.tsx";
-import { type TaskList } from "./components/TaskList.tsx";
+import { initTaskList, type TaskList } from "./components/TaskList.tsx";
 
 import "./index.css";
 
@@ -13,7 +13,7 @@ import {
   RepoContext,
   AutomergeUrl,
 } from "@automerge/react";
-import { DocumentList } from "./components/DocumentList.tsx";
+import { DocumentList, initDocumentList } from "./components/DocumentList.tsx";
 
 const repo = new Repo({
   network: [new WebSocketClientAdapter("wss://sync.automerge.org")],
@@ -23,8 +23,10 @@ const repo = new Repo({
 let rootDocUrl = localStorage.getItem("rootDocUrl") as AutomergeUrl;
 if (!isValidAutomergeUrl(rootDocUrl)) {
   // also create a first taskList and register it in the documentList
-  const taskListHandle = repo.create<TaskList>({ title: "Tasks", tasks: [] });
-  const handle = repo.create<DocumentList>({ documents: [taskListHandle.url] });
+  const taskListHandle = repo.create<TaskList>(initTaskList());
+  const handle = repo.create<DocumentList>(
+    initDocumentList([taskListHandle.url])
+  );
   localStorage.setItem("rootDocUrl", handle.url);
 }
 
