@@ -1,6 +1,4 @@
-import automergeLogo from "/automerge.png";
-import "@picocss/pico/css/pico.min.css";
-import "./App.css";
+import "./TaskList.css";
 import { useDocument, updateText, type AutomergeUrl } from "@automerge/react";
 
 export interface Task {
@@ -9,21 +7,19 @@ export interface Task {
 }
 
 export interface TaskList {
+  title: string;
   tasks: Task[];
 }
 
-function App({ docUrl }: { docUrl: AutomergeUrl }) {
+interface TaskListProps {
+  docUrl: AutomergeUrl;
+}
+
+export function TaskList({ docUrl }: TaskListProps) {
   const [doc, changeDoc] = useDocument<TaskList>(docUrl);
 
   return (
     <>
-      <header>
-        <h1>
-          <img src={automergeLogo} alt="Automerge logo" id="automerge-logo" />
-          Automerge Task List
-        </h1>
-      </header>
-
       <button
         type="button"
         onClick={() => {
@@ -58,8 +54,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
                 value={title || ""}
                 onChange={(e) =>
                   changeDoc((d) => {
-                    // updateText has an awkward API, it takes the
-                    // document, the path, and then the new value.
                     updateText(d, ["tasks", index, "title"], e.target.value);
                   })
                 }
@@ -68,14 +62,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             </div>
           ))}
       </div>
-
-      <footer>
-        <p className="read-the-docs">
-          Powered by Automerge + Vite + React + TypeScript
-        </p>
-      </footer>
     </>
   );
 }
-
-export default App;

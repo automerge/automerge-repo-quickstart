@@ -1,0 +1,20 @@
+.task {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.task input {
+  margin: 0;
+}
+
+.task input[type="text"] {
+  background-color: var(--pico-secondary-background);
+}
+
+.task input[type="checkbox"]:not(:checked) {
+  background-color: var(--pico-secondary-background);
+}
