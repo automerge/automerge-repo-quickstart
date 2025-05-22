@@ -4,14 +4,19 @@ import App from "./components/App.tsx";
 import "@picocss/pico/css/pico.min.css";
 import "./index.css";
 
+import {
+  type DocumentList,
+  initDocumentList,
+} from "./components/DocumentList.tsx";
 import { type TaskList, initTaskList } from "./components/TaskList.tsx";
 
 import {
+  isValidAutomergeUrl,
   Repo,
   WebSocketClientAdapter,
   IndexedDBStorageAdapter,
   RepoContext,
-  isValidAutomergeUrl,
+  AutomergeUrl,
 } from "@automerge/react";
 
 const repo = new Repo({
@@ -19,23 +24,22 @@ const repo = new Repo({
   storage: new IndexedDBStorageAdapter(),
 });
 
-// Check the URL for a document to load
-const locationHash = document.location.hash.substring(1);
-// Depending if we have an AutomergeUrl, either find or create the document
-let handle;
-if (isValidAutomergeUrl(locationHash)) {
-  handle = await repo.find(locationHash);
-} else {
-  handle = repo.create<TaskList>(initTaskList());
-  // Set the location hash to the new document we just made.
-  document.location.hash = handle.url;
+let rootDocUrl = localStorage.getItem("rootDocUrl") as AutomergeUrl;
+if (!isValidAutomergeUrl(rootDocUrl)) {
+  // We're in the "new user" case, so set up with some basic data
+  const taskListHandle = repo.create<TaskList>(initTaskList());
+  const docListhandle = repo.create<DocumentList>(
+    initDocumentList([taskListHandle.url]),
+  );
+  rootDocUrl = docListhandle.url;
+  localStorage.setItem("rootDocUrl", rootDocUrl);
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading a document...</div>}>
       <RepoContext.Provider value={repo}>
-        <App docUrl={handle.url} />
+        <App docUrl={rootDocUrl} />
       </RepoContext.Provider>
     </Suspense>
   </React.StrictMode>,

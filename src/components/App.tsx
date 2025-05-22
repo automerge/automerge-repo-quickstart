@@ -1,9 +1,18 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
-import { type AutomergeUrl } from "@automerge/react";
+import { isValidAutomergeUrl, type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
+import { DocumentList } from "./DocumentList";
+import { useHash } from "react-use";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
+  const [hash, setHash] = useHash();
+  const cleanHash = hash.slice(1); // remove # symbol
+  const currentDocument =
+    cleanHash && isValidAutomergeUrl(cleanHash)
+      ? (cleanHash as AutomergeUrl)
+      : undefined;
+
   return (
     <>
       <header>
@@ -14,8 +23,19 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       </header>
 
       <main>
+        <div className="document-list">
+          <DocumentList
+            docUrl={docUrl}
+            selectedDocument={currentDocument}
+            onSelectDocument={setHash}
+          />
+        </div>
         <div className="task-list">
-          <TaskList docUrl={docUrl} />
+          {currentDocument ? (
+            <TaskList docUrl={currentDocument} />
+          ) : (
+            <div>Select a task list to get started...</div>
+          )}
         </div>
       </main>
 
