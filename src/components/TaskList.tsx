@@ -49,7 +49,15 @@ export const TaskList: React.FC<{
         {doc &&
           doc.tasks?.map(({ title, done }, index) => (
             <div className="task" key={index}>
-              <input type="checkbox" checked={done} />
+              <input
+                type="checkbox"
+                checked={done}
+                onChange={() =>
+                  changeDoc((d) => {
+                    d.tasks[index].done = !d.tasks[index].done;
+                  })
+                }
+              />
 
               <input
                 type="text"
