@@ -31,7 +31,17 @@ export const TaskList: React.FC<{
 
   return (
     <>
-      <button type="button">
+      <button
+        type="button"
+        onClick={() => {
+          changeDoc((d) =>
+            d.tasks.unshift({
+              title: "",
+              done: false,
+            }),
+          );
+        }}
+      >
         <b>+</b> New task
       </button>
 
