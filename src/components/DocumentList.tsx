@@ -15,22 +15,25 @@ export const initDocumentList = (initialDocUrls: AutomergeUrl[]) => {
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
-  currentDocument: AutomergeUrl | undefined;
+  selectedDocument: AutomergeUrl | undefined;
   onSelectDocument: (doc: AutomergeUrl) => void;
-}> = ({ docUrl, currentDocument, onSelectDocument }) => {
+}> = ({ docUrl, selectedDocument, onSelectDocument }) => {
   const repo = useRepo();
   const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
 
-  // Add currentDocument to list if it's not already there
+  // Add selectedDocument to list if it's not already there
   useEffect(() => {
-    if (currentDocument && !doc.documents.some((d) => d === currentDocument)) {
+    if (
+      selectedDocument &&
+      !doc.documents.some((d) => d === selectedDocument)
+    ) {
       changeDoc((doc: DocumentList) => {
-        doc.documents.push(currentDocument);
+        doc.documents.push(selectedDocument);
       });
     }
-  }, [currentDocument, doc.documents]);
+  }, [selectedDocument, doc.documents]);
 
   const handleNewDocument = () => {
     // Create a new empty task list
@@ -45,7 +48,7 @@ export const DocumentList: React.FC<{
           <div
             key={docUrl}
             className={`document-item ${
-              docUrl === currentDocument ? "active" : ""
+              docUrl === selectedDocument ? "active" : ""
             }`}
             onClick={() => onSelectDocument(docUrl)}
           >

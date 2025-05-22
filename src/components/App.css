@@ -40,3 +40,38 @@ footer {
 .read-the-docs {
   color: #888;
 }
+
+.sync-controls {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.sync-controls button {
+  margin: 0;
+}
+
+dialog {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--primary);
+}
+
+dialog article {
+  margin: 0;
+}
+
+dialog input {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+dialog footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+dialog footer button {
+  margin: 0;
+}

@@ -4,6 +4,7 @@ import "./App.css";
 import { type AutomergeUrl, isValidAutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";
+import { SyncControls } from "./SyncControls";
 import { useState, useEffect } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
@@ -45,13 +46,14 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           <img src={automergeLogo} alt="Automerge logo" id="automerge-logo" />
           Automerge Task List
         </h1>
+        <SyncControls docUrl={docUrl} />
       </header>
 
       <main>
         <div className="document-list">
           <DocumentList
             docUrl={docUrl}
-            currentDocument={currentDocument}
+            selectedDocument={currentDocument}
             onSelectDocument={setCurrentDocument}
           />
         </div>
