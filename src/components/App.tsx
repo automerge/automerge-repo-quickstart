@@ -7,13 +7,8 @@ import { DocumentList } from "./DocumentList";
 import { useState } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
-  const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
-    suspense: true,
-  });
-
-  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>(
-    doc.documents[0]
-  );
+  // the DocumentList should suspend until we have a currentDocument
+  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>();
 
   return (
     <>

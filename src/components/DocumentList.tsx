@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRepo, useDocument, AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
+import "./DocumentList.css";
 
 export interface DocumentList {
   documents: AutomergeUrl[];
@@ -14,6 +15,9 @@ export const DocumentList: React.FC<{
   const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
+  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>(
+    doc.documents[0]
+  );
 
   const handleNewDocument = () => {
     // Create a new empty task list
@@ -25,7 +29,13 @@ export const DocumentList: React.FC<{
     });
 
     // Select the new document
+    setCurrentDocument(taskListHandle.url);
     onSelectDocument(taskListHandle.url);
+  };
+
+  const handleSelectDocument = (docUrl: AutomergeUrl) => {
+    setCurrentDocument(docUrl);
+    onSelectDocument(docUrl);
   };
 
   return (
@@ -34,8 +44,10 @@ export const DocumentList: React.FC<{
         {doc.documents.map((docUrl) => (
           <div
             key={docUrl}
-            className="document-item"
-            onClick={() => onSelectDocument(docUrl)}
+            className={`document-item ${
+              docUrl === currentDocument ? "active" : ""
+            }`}
+            onClick={() => handleSelectDocument(docUrl)}
           >
             <DocumentTitle docUrl={docUrl} />
           </div>
