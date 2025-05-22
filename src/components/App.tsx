@@ -4,6 +4,7 @@ import { isValidAutomergeUrl, type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";
 import { useHash } from "react-use";
+import { SyncControls } from "./SyncControls";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [hash, setHash] = useHash();
@@ -42,6 +43,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       </main>
 
       <footer>
+        <SyncControls docUrl={docUrl} />
         <p className="footer-copy">
           Powered by Automerge + Vite + React + TypeScript
         </p>
