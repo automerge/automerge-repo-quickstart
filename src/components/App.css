@@ -1,32 +1,40 @@
 #root {
-  max-width: 1280px;
-  max-height: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
+}
+
+main {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  gap: 2rem;
+  min-height: calc(100vh - 200px);
 }
 
 header {
-  text-align: center;
   margin-bottom: 2rem;
 }
 
 footer {
   margin-top: 2rem;
-}
-
-#task-list {
-  width: 100%;
+  text-align: center;
 }
 
 #automerge-logo {
-  width: 1.7ex;
-  height: auto;
-  margin-right: 10px;
+  height: 2em;
+  margin-right: 0.5em;
   vertical-align: middle;
+}
+
+/* Layout for DocumentList and TaskList */
+.document-list {
+  width: 300px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--primary);
+  padding-right: 1rem;
+}
+
+.task-list {
+  flex-grow: 1;
 }
 
 .read-the-docs {

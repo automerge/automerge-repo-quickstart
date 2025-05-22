@@ -4,11 +4,16 @@ import "./App.css";
 import { useDocument, type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";
+import { useState } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
+
+  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>(
+    doc.documents[0]
+  );
 
   return (
     <>
@@ -19,7 +24,14 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
         </h1>
       </header>
 
-      <TaskList docUrl={doc.documents[0]} />
+      <main>
+        <div className="document-list">
+          <DocumentList docUrl={docUrl} onSelectDocument={setCurrentDocument} />
+        </div>
+        <div className="task-list">
+          <TaskList docUrl={currentDocument} />
+        </div>
+      </main>
 
       <footer>
         <p className="read-the-docs">

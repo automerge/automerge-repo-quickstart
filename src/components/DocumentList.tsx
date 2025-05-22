@@ -30,7 +30,6 @@ export const DocumentList: React.FC<{
 
   return (
     <div className="document-list">
-      <button onClick={handleNewDocument}>New Task List</button>
       <div className="documents">
         {doc.documents.map((docUrl) => (
           <div
@@ -42,6 +41,7 @@ export const DocumentList: React.FC<{
           </div>
         ))}
       </div>
+      <button onClick={handleNewDocument}>+ Task List</button>
     </div>
   );
 };
