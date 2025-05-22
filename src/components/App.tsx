@@ -1,8 +1,9 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
+import { type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 
-function App({ taskList }: { taskList: TaskList }) {
+function App({ docUrl }: { docUrl: AutomergeUrl }) {
   return (
     <>
       <header>
@@ -14,7 +15,7 @@ function App({ taskList }: { taskList: TaskList }) {
 
       <main>
         <div className="task-list">
-          <TaskList taskList={taskList} />
+          <TaskList docUrl={docUrl} />
         </div>
       </main>
 
