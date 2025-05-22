@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  useRepo,
-  useDocument,
-  AutomergeUrl,
-  isValidAutomergeUrl,
-} from "@automerge/react";
+import React, { useEffect } from "react";
+import { useRepo, useDocument, AutomergeUrl } from "@automerge/react";
 import { initTaskList, TaskList } from "./TaskList";
 import "./DocumentList.css";
 
@@ -20,65 +15,27 @@ export const initDocumentList = (initialDocUrls: AutomergeUrl[]) => {
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
+  currentDocument: AutomergeUrl | undefined;
   onSelectDocument: (doc: AutomergeUrl) => void;
-}> = ({ docUrl, onSelectDocument }) => {
+}> = ({ docUrl, currentDocument, onSelectDocument }) => {
   const repo = useRepo();
   const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
 
-  // Get initial document from hash or first in list
-  const hash = window.location.hash.slice(1);
-  let initialDoc: AutomergeUrl;
-
-  if (hash && isValidAutomergeUrl(hash)) {
-    // Try to find the document in our list
-    const existingDoc = doc.documents.find((d) => d.toString() === hash);
-    if (existingDoc) {
-      initialDoc = existingDoc;
-    } else {
-      // If not found, add it to our list
+  // Add currentDocument to list if it's not already there
+  useEffect(() => {
+    if (currentDocument && !doc.documents.some((d) => d === currentDocument)) {
       changeDoc((doc: DocumentList) => {
-        if (!doc.documents.some((d) => d.toString() === hash)) {
-          doc.documents.push(hash as AutomergeUrl);
-        }
+        doc.documents.push(currentDocument);
       });
-      initialDoc = hash as AutomergeUrl;
     }
-  } else {
-    initialDoc = doc.documents[0];
-  }
-
-  const [currentDocument, setCurrentDocument] =
-    useState<AutomergeUrl>(initialDoc);
-
-  // Notify parent of initial document selection
-  useEffect(() => {
-    onSelectDocument(initialDoc);
-  }, []);
-
-  // Update hash when document changes
-  useEffect(() => {
-    window.location.hash = currentDocument.toString();
-  }, [currentDocument]);
+  }, [currentDocument, doc.documents]);
 
   const handleNewDocument = () => {
     // Create a new empty task list
     const taskListHandle = repo.create(initTaskList());
-
-    // Add it to the listing, here
-    changeDoc((doc: DocumentList) => {
-      doc.documents.push(taskListHandle.url);
-    });
-
-    // Select the new document
-    setCurrentDocument(taskListHandle.url);
     onSelectDocument(taskListHandle.url);
-  };
-
-  const handleSelectDocument = (docUrl: AutomergeUrl) => {
-    setCurrentDocument(docUrl);
-    onSelectDocument(docUrl);
   };
 
   return (
@@ -90,7 +47,7 @@ export const DocumentList: React.FC<{
             className={`document-item ${
               docUrl === currentDocument ? "active" : ""
             }`}
-            onClick={() => handleSelectDocument(docUrl)}
+            onClick={() => onSelectDocument(docUrl)}
           >
             <DocumentTitle docUrl={docUrl} />
           </div>

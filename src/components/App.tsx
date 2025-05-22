@@ -1,13 +1,42 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
 import "./App.css";
-import { type AutomergeUrl } from "@automerge/react";
+import { type AutomergeUrl, isValidAutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
-  const [currentDocument, setCurrentDocument] = useState<AutomergeUrl>();
+  const getDocumentFromHash = () => {
+    const hash = window.location.hash.slice(1);
+    return hash && isValidAutomergeUrl(hash)
+      ? (hash as AutomergeUrl)
+      : undefined;
+  };
+
+  const [currentDocument, setCurrentDocument] = useState<
+    AutomergeUrl | undefined
+  >(getDocumentFromHash());
+
+  // Update hash when document changes
+  useEffect(() => {
+    if (currentDocument && currentDocument !== getDocumentFromHash()) {
+      window.location.hash = currentDocument;
+    }
+  }, [currentDocument]);
+
+  // Listen for hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const newDoc = getDocumentFromHash();
+      if (newDoc && newDoc !== currentDocument) {
+        setCurrentDocument(newDoc);
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [currentDocument]);
 
   return (
     <>
@@ -20,7 +49,11 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
       <main>
         <div className="document-list">
-          <DocumentList docUrl={docUrl} onSelectDocument={setCurrentDocument} />
+          <DocumentList
+            docUrl={docUrl}
+            currentDocument={currentDocument}
+            onSelectDocument={setCurrentDocument}
+          />
         </div>
         <div className="task-list">
           {currentDocument ? (
