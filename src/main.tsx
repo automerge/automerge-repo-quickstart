@@ -27,7 +27,8 @@ if (!isValidAutomergeUrl(rootDocUrl)) {
   const handle = repo.create<DocumentList>(
     initDocumentList([taskListHandle.url])
   );
-  localStorage.setItem("rootDocUrl", handle.url);
+  rootDocUrl = handle.url;
+  localStorage.setItem("rootDocUrl", rootDocUrl);
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
