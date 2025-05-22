@@ -1,6 +1,6 @@
 import "@picocss/pico/css/pico.min.css";
 import "../index.css";
-import { AutomergeUrl, useDocument } from "@automerge/react";
+import { AutomergeUrl, useDocument, updateText } from "@automerge/react";
 
 export interface Task {
   title: string;
@@ -63,6 +63,11 @@ export const TaskList: React.FC<{
                 type="text"
                 placeholder="What needs doing?"
                 value={title || ""}
+                onChange={(e) =>
+                  changeDoc((d) => {
+                    updateText(d, ["tasks", index, "title"], e.target.value);
+                  })
+                }
                 style={done ? { textDecoration: "line-through" } : {}}
               />
             </div>
