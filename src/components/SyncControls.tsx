@@ -28,20 +28,22 @@ export const SyncControls: React.FC<SyncControlsProps> = ({ docUrl }) => {
 
   return (
     <div className="sync-controls">
-      <button onClick={handleExport}>Export URL</button>
-      <button onClick={() => setShowImportDialog(true)}>Import URL</button>
+      <button onClick={handleExport}>Copy account token</button>
+      <button onClick={() => setShowImportDialog(true)}>
+        Import account token
+      </button>
 
       {showImportDialog && (
         <dialog open>
           <article>
             <header>
-              <h3>Import Document URL</h3>
+              <h3>Import your account token</h3>
             </header>
             <input
               type="text"
               value={importUrl}
               onChange={(e) => setImportUrl(e.target.value)}
-              placeholder="Paste document URL here"
+              placeholder="Paste your account token URL here"
             />
             <footer>
               <button onClick={handleImport}>Import</button>

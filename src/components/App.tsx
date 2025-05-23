@@ -46,7 +46,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           <img src={automergeLogo} alt="Automerge logo" id="automerge-logo" />
           Automerge Task List
         </h1>
-        <SyncControls docUrl={docUrl} />
       </header>
 
       <main>
@@ -67,6 +66,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       </main>
 
       <footer>
+        <SyncControls docUrl={docUrl} />
         <p className="read-the-docs">
           Powered by Automerge + Vite + React + TypeScript
         </p>
