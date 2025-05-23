@@ -7,6 +7,7 @@ export interface DocumentList {
   documents: AutomergeUrl[];
 }
 
+// A helper function to consistently initialize the document list.
 export const initDocumentList = (initialDocUrls: AutomergeUrl[]) => {
   return {
     documents: initialDocUrls || [],
@@ -23,7 +24,8 @@ export const DocumentList: React.FC<{
     suspense: true,
   });
 
-  // Add selectedDocument to list if it's not already there
+  // Record the selectedDocument in the list if it's not already there
+  // TODO: This is somehow recording the linked document twice on initial load...
   useEffect(() => {
     if (
       selectedDocument &&
@@ -62,6 +64,7 @@ export const DocumentList: React.FC<{
 };
 
 // Component to display document title
+// We could have used useDocuments instead here, but this works too.
 const DocumentTitle: React.FC<{ docUrl: AutomergeUrl }> = ({ docUrl }) => {
   const [doc] = useDocument<TaskList>(docUrl, { suspense: true });
 
