@@ -22,12 +22,12 @@ const repo = new Repo({
 
 let rootDocUrl = localStorage.getItem("rootDocUrl") as AutomergeUrl;
 if (!isValidAutomergeUrl(rootDocUrl)) {
-  // also create a first taskList and register it in the documentList
+  // We're in the "new user" case, so set up with some basic data
   const taskListHandle = repo.create<TaskList>(initTaskList());
-  const handle = repo.create<DocumentList>(
+  const docListhandle = repo.create<DocumentList>(
     initDocumentList([taskListHandle.url])
   );
-  rootDocUrl = handle.url;
+  rootDocUrl = docListhandle.url;
   localStorage.setItem("rootDocUrl", rootDocUrl);
 }
 
