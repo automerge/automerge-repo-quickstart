@@ -8,6 +8,11 @@ import { SyncControls } from "./SyncControls";
 import { useState, useEffect } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
+  /** Location Hash Sharing URLs
+   * For this application we allow sharing documents by using the hash part of the URL.
+   * The following code subscribes to the hash so that we can update the current document when the hash changes.
+   * It also updates the hash when the current document changes.
+   */
   const getDocumentFromHash = () => {
     const hash = window.location.hash.slice(1);
     return hash && isValidAutomergeUrl(hash)
@@ -39,6 +44,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, [currentDocument]);
 
+  /** Main App */
   return (
     <>
       <header>

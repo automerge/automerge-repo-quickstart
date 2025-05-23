@@ -11,6 +11,7 @@ export interface TaskList {
   tasks: Task[];
 }
 
+// A helper function to consistently initialize a task list.
 export function initTaskList() {
   return {
     title: `TODO: ${new Date().toLocaleString()}`,
