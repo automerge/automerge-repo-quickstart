@@ -14,7 +14,7 @@ export interface TaskList {
 export function initTaskList() {
   return {
     title: `TODO: ${new Date().toLocaleString()}`,
-    tasks: [],
+    tasks: [{ done: false, title: "" }],
   };
 }
 
