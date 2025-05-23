@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/App.tsx";
-import { initTaskList, type TaskList } from "./components/TaskList.tsx";
 
 import "./index.css";
 
@@ -13,7 +12,12 @@ import {
   RepoContext,
   AutomergeUrl,
 } from "@automerge/react";
-import { DocumentList, initDocumentList } from "./components/DocumentList.tsx";
+
+import {
+  type DocumentList,
+  initDocumentList,
+} from "./components/DocumentList.tsx";
+import { type TaskList, initTaskList } from "./components/TaskList.tsx";
 
 const repo = new Repo({
   network: [new WebSocketClientAdapter("wss://sync.automerge.org")],
@@ -33,7 +37,7 @@ if (!isValidAutomergeUrl(rootDocUrl)) {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading a document...</div>}>
       <RepoContext.Provider value={repo}>
         <App docUrl={rootDocUrl} />
       </RepoContext.Provider>

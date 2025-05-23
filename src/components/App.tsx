@@ -67,7 +67,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
       <footer>
         <SyncControls docUrl={docUrl} />
-        <p className="read-the-docs">
+        <p className="footer-copy">
           Powered by Automerge + Vite + React + TypeScript
         </p>
       </footer>
