@@ -9,15 +9,11 @@ import { useHash } from "react-use";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [hash, setHash] = useHash();
-
-  // Get current document from hash
+  const cleanHash = hash.slice(1); // remove # symbol
   const currentDocument =
-    hash.slice(1) && isValidAutomergeUrl(hash.slice(1))
-      ? (hash.slice(1) as AutomergeUrl)
+    cleanHash && isValidAutomergeUrl(cleanHash)
+      ? (cleanHash as AutomergeUrl)
       : undefined;
-
-  // Update current document (via hash)
-  const setCurrentDocument = (doc: AutomergeUrl) => setHash(doc);
 
   return (
     <>
@@ -33,7 +29,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           <DocumentList
             docUrl={docUrl}
             selectedDocument={currentDocument}
-            onSelectDocument={setCurrentDocument}
+            onSelectDocument={setHash}
           />
         </div>
         <div className="task-list">
