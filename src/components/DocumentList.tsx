@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useRepo, useDocument, AutomergeUrl } from "@automerge/react";
 import { initTaskList, TaskList } from "./TaskList";
-import "./DocumentList.css";
 
 export interface DocumentList {
   documents: AutomergeUrl[];

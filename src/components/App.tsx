@@ -1,6 +1,5 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
-import "./App.css";
 import { type AutomergeUrl, isValidAutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { DocumentList } from "./DocumentList";

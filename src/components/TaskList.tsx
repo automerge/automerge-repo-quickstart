@@ -1,4 +1,3 @@
-import "./TaskList.css";
 import { useDocument, updateText, type AutomergeUrl } from "@automerge/react";
 
 export interface Task {

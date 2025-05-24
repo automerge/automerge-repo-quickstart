@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/App.tsx";
 
+import "@picocss/pico/css/pico.min.css";
 import "./index.css";
 
 import {
