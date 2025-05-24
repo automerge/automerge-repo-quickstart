@@ -8,22 +8,26 @@ interface SyncControlsProps {
 export const SyncControls: React.FC<SyncControlsProps> = ({ docUrl }) => {
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [importUrl, setImportUrl] = useState("");
+  const [error, setError] = useState("");
 
   const handleExport = () => {
     navigator.clipboard.writeText(docUrl);
   };
 
   const handleImport = () => {
-    try {
-      if (isValidAutomergeUrl(importUrl)) {
-        localStorage.setItem("rootDocUrl", importUrl);
-        window.location.reload();
-      } else {
-        alert("Invalid Automerge URL");
-      }
-    } catch (e) {
-      alert("Invalid URL");
+    if (!isValidAutomergeUrl(importUrl)) {
+      setError("Invalid Automerge URL");
+      return;
     }
+
+    localStorage.setItem("rootDocUrl", importUrl);
+    window.location.reload();
+  };
+
+  const closeDialog = () => {
+    setShowImportDialog(false);
+    setImportUrl("");
+    setError("");
   };
 
   return (
@@ -42,12 +46,16 @@ export const SyncControls: React.FC<SyncControlsProps> = ({ docUrl }) => {
             <input
               type="text"
               value={importUrl}
-              onChange={(e) => setImportUrl(e.target.value)}
+              onChange={(e) => {
+                setImportUrl(e.target.value);
+                setError("");
+              }}
               placeholder="Paste your account token URL here"
             />
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <footer>
               <button onClick={handleImport}>Import</button>
-              <button onClick={() => setShowImportDialog(false)}>Cancel</button>
+              <button onClick={closeDialog}>Cancel</button>
             </footer>
           </article>
         </dialog>

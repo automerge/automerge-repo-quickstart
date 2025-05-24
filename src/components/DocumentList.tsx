@@ -24,17 +24,13 @@ export const DocumentList: React.FC<{
   });
 
   // Record the selectedDocument in the list if it's not already there
-  // TODO: This is somehow recording the linked document twice on initial load...
   useEffect(() => {
-    if (
-      selectedDocument &&
-      !doc.documents.some((d) => d === selectedDocument)
-    ) {
-      changeDoc((doc: DocumentList) => {
+    changeDoc((doc: DocumentList) => {
+      if (selectedDocument && !doc.documents.includes(selectedDocument)) {
         doc.documents.push(selectedDocument);
-      });
-    }
-  }, [selectedDocument, doc.documents]);
+      }
+    });
+  }, [selectedDocument, changeDoc]);
 
   const handleNewDocument = () => {
     // Create a new empty task list
