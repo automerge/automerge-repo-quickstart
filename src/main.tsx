@@ -8,6 +8,7 @@ import { initTaskList, type TaskList } from "./components/TaskList.tsx";
 import {
   Repo,
   BroadcastChannelNetworkAdapter,
+  WebSocketClientAdapter,
   IndexedDBStorageAdapter,
   RepoContext,
   isValidAutomergeUrl,
@@ -15,7 +16,10 @@ import {
 } from "@automerge/react";
 
 const repo = new Repo({
-  network: [new BroadcastChannelNetworkAdapter()],
+  network: [
+    new BroadcastChannelNetworkAdapter(),
+    new WebSocketClientAdapter("wss://sync.automerge.org"),
+  ],
   storage: new IndexedDBStorageAdapter(),
 });
 
