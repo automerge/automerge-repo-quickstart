@@ -11,7 +11,7 @@ import {
   RepoContext,
   DocHandle,
 } from "@automerge/react";
-import { RootDocument } from "./rootDoc.ts";
+import { getOrCreateRoot, RootDocument } from "./rootDoc.ts";
 
 const repo = new Repo({
   network: [
@@ -33,7 +33,8 @@ declare global {
 window.repo = repo;
 
 // Depending if we have an AutomergeUrl, either find or create the document
-window.handle = repo.create({ taskLists: [] });
+const rootDocUrl = getOrCreateRoot(repo);
+window.handle = await repo.find(rootDocUrl);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
