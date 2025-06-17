@@ -3,6 +3,7 @@ import { useDocument, AutomergeUrl, useRepo } from "@automerge/react";
 import { initTaskList, TaskList } from "./TaskList";
 
 import { RootDocument } from "../rootDoc";
+import { useEffect } from "react";
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
@@ -13,6 +14,15 @@ export const DocumentList: React.FC<{
   const [doc, changeDoc] = useDocument<RootDocument>(docUrl, {
     suspense: true,
   });
+
+  useEffect(() => {
+    changeDoc((d) => {
+      if (selectedDocument && !d.taskLists.includes(selectedDocument)) {
+        // If the selected document is not in the list, add it
+        d.taskLists.push(selectedDocument);
+      }
+    });
+  }, [selectedDocument, changeDoc]);
 
   const handleNewDocument = () => {
     const newTaskList = repo.create<TaskList>(initTaskList());

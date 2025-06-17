@@ -3,17 +3,13 @@ import ReactDOM from "react-dom/client";
 import App from "./components/App.tsx";
 import "./index.css";
 
-import { initTaskList, type TaskList } from "./components/TaskList.tsx";
-
 import {
   Repo,
   BroadcastChannelNetworkAdapter,
   WebSocketClientAdapter,
   IndexedDBStorageAdapter,
   RepoContext,
-  isValidAutomergeUrl,
   DocHandle,
-  AutomergeUrl,
 } from "@automerge/react";
 import { RootDocument } from "./rootDoc.ts";
 
@@ -36,18 +32,8 @@ declare global {
 }
 window.repo = repo;
 
-// Check the URL for a document to load
-const locationHash = document.location.hash.substring(1);
 // Depending if we have an AutomergeUrl, either find or create the document
-if (isValidAutomergeUrl(locationHash)) {
-  const taskList = await repo.find(locationHash);
-  window.handle = repo.create({ taskLists: [taskList.url] });
-} else {
-  const taskList = repo.create<TaskList>(initTaskList());
-  window.handle = repo.create({ taskLists: [taskList.url] });
-  // Set the location hash to the new document we just made.
-  document.location.hash = taskList.url;
-}
+window.handle = repo.create({ taskLists: [] });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

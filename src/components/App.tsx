@@ -1,18 +1,17 @@
 import automergeLogo from "/automerge.png";
 import "@picocss/pico/css/pico.min.css";
-import { useDocument, type AutomergeUrl } from "@automerge/react";
+import { isValidAutomergeUrl, type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
-import { RootDocument } from "../rootDoc";
 import { DocumentList } from "./DocumentList";
-import { useState } from "react";
+import { useHash } from "react-use";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
-  const [doc] = useDocument<RootDocument>(docUrl, {
-    suspense: true,
-  });
-  const [selectedDocUrl, setSelectedDocUrl] = useState<AutomergeUrl | null>(
-    null,
-  );
+  const [hash, setHash] = useHash();
+  const cleanHash = hash.slice(1); // Remove the leading '#'
+  const selectedDocUrl =
+    cleanHash && isValidAutomergeUrl(cleanHash)
+      ? (cleanHash as AutomergeUrl)
+      : null;
 
   return (
     <>
@@ -27,7 +26,13 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
         <div className="document-list">
           <DocumentList
             docUrl={docUrl}
-            onSelectDocument={setSelectedDocUrl}
+            onSelectDocument={(url) => {
+              if (url) {
+                setHash(url);
+              } else {
+                setHash("");
+              }
+            }}
             selectedDocument={selectedDocUrl}
           />
         </div>
