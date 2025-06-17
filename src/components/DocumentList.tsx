@@ -2,14 +2,14 @@ import React from "react";
 import { useDocument, AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 
-export interface DocumentList {
-  taskLists: AutomergeUrl[];
-}
+import { RootDocument } from "../rootDoc";
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
-}> = ({ docUrl }) => {
-  const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
+  selectedDocument: AutomergeUrl | null;
+  onSelectDocument: (docUrl: AutomergeUrl | null) => void;
+}> = ({ docUrl, selectedDocument, onSelectDocument }) => {
+  const [doc] = useDocument<RootDocument>(docUrl, {
     suspense: true,
   });
 
@@ -17,7 +17,11 @@ export const DocumentList: React.FC<{
     <div className="document-list">
       <div className="documents">
         {doc.taskLists.map((docUrl) => (
-          <div key={docUrl} className={`document-item`}>
+          <div
+            key={docUrl}
+            className={`document-item ${docUrl === selectedDocument ? "active" : ""}`}
+            onClick={() => onSelectDocument(docUrl)}
+          >
             <DocumentTitle docUrl={docUrl} />
           </div>
         ))}

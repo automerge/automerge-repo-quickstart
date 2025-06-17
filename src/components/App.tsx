@@ -4,11 +4,15 @@ import { useDocument, type AutomergeUrl } from "@automerge/react";
 import { TaskList } from "./TaskList";
 import { RootDocument } from "../rootDoc";
 import { DocumentList } from "./DocumentList";
+import { useState } from "react";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc] = useDocument<RootDocument>(docUrl, {
     suspense: true,
   });
+  const [selectedDocUrl, setSelectedDocUrl] = useState<AutomergeUrl | null>(
+    null,
+  );
 
   return (
     <>
@@ -21,10 +25,14 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
 
       <main>
         <div className="document-list">
-          <DocumentList docUrl={docUrl} />
+          <DocumentList
+            docUrl={docUrl}
+            onSelectDocument={setSelectedDocUrl}
+            selectedDocument={selectedDocUrl}
+          />
         </div>
         <div className="task-list">
-          <TaskList docUrl={doc.taskLists[0]} />
+          {selectedDocUrl ? <TaskList docUrl={selectedDocUrl} /> : null}
         </div>
       </main>
 
