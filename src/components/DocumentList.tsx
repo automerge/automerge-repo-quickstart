@@ -1,6 +1,6 @@
 import React from "react";
-import { useDocument, AutomergeUrl } from "@automerge/react";
-import { TaskList } from "./TaskList";
+import { useDocument, AutomergeUrl, useRepo } from "@automerge/react";
+import { initTaskList, TaskList } from "./TaskList";
 
 import { RootDocument } from "../rootDoc";
 
@@ -9,9 +9,16 @@ export const DocumentList: React.FC<{
   selectedDocument: AutomergeUrl | null;
   onSelectDocument: (docUrl: AutomergeUrl | null) => void;
 }> = ({ docUrl, selectedDocument, onSelectDocument }) => {
-  const [doc] = useDocument<RootDocument>(docUrl, {
+  const repo = useRepo();
+  const [doc, changeDoc] = useDocument<RootDocument>(docUrl, {
     suspense: true,
   });
+
+  const handleNewDocument = () => {
+    const newTaskList = repo.create<TaskList>(initTaskList());
+    changeDoc((d) => d.taskLists.push(newTaskList.url));
+    onSelectDocument(newTaskList.url);
+  };
 
   return (
     <div className="document-list">
@@ -26,6 +33,7 @@ export const DocumentList: React.FC<{
           </div>
         ))}
       </div>
+      <button onClick={handleNewDocument}>+ Task List</button>
     </div>
   );
 };
