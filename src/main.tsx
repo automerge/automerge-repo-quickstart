@@ -13,7 +13,9 @@ import {
   RepoContext,
   isValidAutomergeUrl,
   DocHandle,
+  AutomergeUrl,
 } from "@automerge/react";
+import { RootDocument } from "./rootDoc.ts";
 
 const repo = new Repo({
   network: [
@@ -29,7 +31,7 @@ declare global {
   interface Window {
     repo: Repo;
     // We also add the handle to the global window object for debugging
-    handle: DocHandle<TaskList>;
+    handle: DocHandle<RootDocument>;
   }
 }
 window.repo = repo;
@@ -38,11 +40,13 @@ window.repo = repo;
 const locationHash = document.location.hash.substring(1);
 // Depending if we have an AutomergeUrl, either find or create the document
 if (isValidAutomergeUrl(locationHash)) {
-  window.handle = await repo.find(locationHash);
+  const taskList = await repo.find(locationHash);
+  window.handle = repo.create({ taskLists: [taskList.url] });
 } else {
-  window.handle = repo.create<TaskList>(initTaskList());
+  const taskList = repo.create<TaskList>(initTaskList());
+  window.handle = repo.create({ taskLists: [taskList.url] });
   // Set the location hash to the new document we just made.
-  document.location.hash = window.handle.url;
+  document.location.hash = taskList.url;
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
