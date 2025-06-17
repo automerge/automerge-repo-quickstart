@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { useRepo, useDocument, AutomergeUrl } from "@automerge/react";
+import React from "react";
+import { useDocument, AutomergeUrl } from "@automerge/react";
+import { TaskList } from "./TaskList";
 
 export interface DocumentList {
   taskLists: AutomergeUrl[];
@@ -7,9 +8,8 @@ export interface DocumentList {
 
 export const DocumentList: React.FC<{
   docUrl: AutomergeUrl;
-}> = ({ docUrl, selectedDocument, onSelectDocument }) => {
-  const repo = useRepo();
-  const [doc, changeDoc] = useDocument<DocumentList>(docUrl, {
+}> = ({ docUrl }) => {
+  const [doc] = useDocument<DocumentList>(docUrl, {
     suspense: true,
   });
 
@@ -17,13 +17,12 @@ export const DocumentList: React.FC<{
     <div className="document-list">
       <div className="documents">
         {doc.taskLists.map((docUrl) => (
-          <div
-            key={docUrl}
-            className={`document-item ${
-          >
+          <div key={docUrl} className="document-item">
             <DocumentTitle docUrl={docUrl} />
           </div>
         ))}
+      </div>
+    </div>
   );
 };
 
