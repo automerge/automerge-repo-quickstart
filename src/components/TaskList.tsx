@@ -25,7 +25,7 @@ export const TaskList: React.FC<{
 }> = ({ docUrl }) => {
   const [doc, changeDoc] = useDocument<TaskList>(docUrl, {
     // This hooks the `useDocument` into reacts suspense infrastructure so the whole component
-    // only renderes once the document is loaded
+    // only renders once the document is loaded
     suspense: true,
   });
 
