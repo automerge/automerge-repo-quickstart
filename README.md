@@ -13,7 +13,7 @@ It demonstrates:
 
 ## Installation
 
-Clone the project, install its dependencies, and run `yarn dev` to start the local dev server.
+Clone the project, install its dependencies, and run `pnpm dev` to start the local dev server.
 
 ```bash
 $ git clone https://github.com/automerge/automerge-repo-quickstart.git
@@ -25,7 +25,7 @@ $ pnpm dev
 # Starting Vite dev server...
 ```
 
-Navigate to http://localhost:5173 to see the app running. 
+Navigate to http://localhost:5173 to see the app running.
 
 You'll notice the URL change to append a hash with an Automerge document ID, e.g.:
 
